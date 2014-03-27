@@ -1,6 +1,23 @@
 var db = require('../config');
 var crypto = require('crypto');
 
+var linkSchema = new db.Schema({
+  url: String,
+  base_url: String,
+  code: String,
+  title: String,
+  visits: { type: Number, default: 0},
+  created_at: { type: Date, default: Date.now}
+});
+
+linkSchema.pre('save', function(next) {
+  console.log('before saving');
+  next();
+});
+
+// Schema maps data from MongoDB into Javascript Objects
+db.Link = Link = mongoose.model('Link', linkSchema);
+
 var Link = db.Model.extend({
   tableName: 'urls',
   hasTimestamps: true,

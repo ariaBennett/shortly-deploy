@@ -9,9 +9,15 @@ var userSchema = new db.Schema({
   created_at: { type: Date, default: Date.now},
 });
 
-userSchema.methods.hashPassword = function (password) {
-  this.password = bcrypt.hash(password);
-}
+userSchema.pre('save', function(next) {
+  var self = this;
+
+  console.log('before saving');
+  bcrypt.hash(self.password,null, null, function(err,hash) {
+    self.password = hash;
+    next();
+  });
+});
 
 // Schema maps data from MongoDB into Javascript Objects
 db.Person = Person = mongoose.model('Person', userSchema);
