@@ -2,6 +2,22 @@ var db = require('../config');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 
+
+var userSchema = new db.Schema({
+  username: String,
+  password: String,
+  created_at: { type: Date, default: Date.now},
+});
+
+userSchema.methods.hashPassword = function (password) {
+  this.password = bcrypt.hash(password);
+}
+
+// Schema maps data from MongoDB into Javascript Objects
+db.Person = Person = mongoose.model('Person', userSchema);
+
+
+
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,

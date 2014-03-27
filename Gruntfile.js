@@ -3,6 +3,11 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      dist: {
+        src: ['./**/*.js', 'node_modules/!(*)'],
+        dest: './concat.js'
+
+      }
     },
 
     mochaTest: {
@@ -21,11 +26,15 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      build: {
+        src: './concat.js',
+        dest: './concat.min.js'
+      }
     },
 
     jshint: {
       files: [
-        // Add filespec list here
+        './concat.js'
       ],
       options: {
         force: 'true',
@@ -107,6 +116,6 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', [
     // add your deploy tasks here
   ]);
-
+  grunt.registerTask('default', ['concat']);
 
 };

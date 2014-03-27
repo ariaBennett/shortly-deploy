@@ -1,6 +1,9 @@
 var Bookshelf = require('bookshelf');
 var path = require('path');
 
+
+
+
 var db = Bookshelf.initialize({
   client: 'sqlite3',
   connection: {
@@ -41,5 +44,18 @@ db.knex.schema.hasTable('users').then(function(exists) {
     });
   }
 });
+
+
+db.mongoose = mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
+
+var mon = mongoose.connection;
+
+mon.on('error', console.error.bind(console,'connection error:'));
+mon.once('open', function () {
+  console.log('Mongoose connection successful');
+});
+
+db.Schema = mongoose.Schema;
 
 module.exports = db;
